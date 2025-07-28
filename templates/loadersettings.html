@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${title}"></title>
+
+   <!--/* Favicons */-->
+   <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+   <meta name="msapplication-TileColor" content="#da532c">
+   <meta name="theme-color" content="#ffffff">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+
+    <!-- Optional: Add Bootstrap JS (for dropdowns, modals, etc.) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+   <!--  Main CSS File -->
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   
+   <style>
+		.c-pointer{
+		  cursor: pointer;
+		}    
+		.form-switch .form-check-input {
+			width: 3em !important;
+			height: 1.3em !important;
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='4' fill='black'/%3e%3c/svg%3e") !important;
+		  	background-color: #6c757d;
+		  	border-color: gray;
+		}
+		
+        .switch-green .form-check-input:checked {
+            background-color: #28a745; /* Green background */
+            border-color: gray;
+        }
+
+        .switch-red .form-check-input:checked {
+            background-color: #dc3545; /* Red background */
+            border-color: gray;
+        }
+				
+		.form-switch .form-check-input:focus {
+		  box-shadow: 0 0 1px 1px gray;
+		  border-color: gray;
+		}
+		.c-pointer{
+		  cursor: pointer;
+		}    
+		.shadowhover:hover{
+			background-color: #f8f9fa;
+		    border-radius: 5px;
+		    -moz-border-radius: 5px;			
+		}
+		.scrollableDiv {
+            width: 300px;        /* Set a specific width */
+            height: 200px;       /* Set a specific height */
+            overflow-y: auto;    /* Add vertical scrollbar if needed */
+            padding: 10px;       /* Optional: add some padding */
+            box-sizing: border-box; /* Include padding in the total width and height */
+        }
+   </style>
+   <script>
+   
+	function showToast(header, body, removeClass, addClass){
+	
+	  	$('#toastheader').html(header);
+	  	$('#toastbody').removeClass(removeClass).addClass(addClass);
+	  	$('#toastbody').html(body);        	
+		toast.show(); 
+	}			
+	
+	function onClickEmptyItem(){
+		showToast("Confirmation Message", "This function is not implemented yet!", "bg-primary", "bg-danger");
+	}
+   
+   </script>
+</head>
+
+<body>
+        <header id="header" class="header">
+			<nav class="navbar navbar-expand-lg navbar-light bg-dark py-1">
+				<div class="container-fluid">
+                    <a class="mt-0 p-0 d-flex flex-row align-items-center bg-dark" href="https://www.learn2rag.de" title="You'll leave this site.">
+                        <img src="{% static 'images/l2rag_logo.png' %}" alt="Learn2RAG" width="155" height="auto" class="align-self-start bg-white rounded border mx-2 p-0 px-2">
+                    </a>	
+					<div class="collapse navbar-collapse d-flex justify-content-between align-items-center" id="mynavbar">
+						<ul class="navbar-nav me-auto">
+							<li class="nav-item">
+								<a id="mgmtconsole" class="nav-link text-white fs-6 ms-2 px-2 border rounded" href="/config">Management Console</a>
+							</li>
+							<li class="nav-item">
+								<a id="customers" class="nav-link text-white fs-6 ms-2 px-2" href="#" onclick="onClickEmptyItem();">Item 1</a>
+							</li>
+							<li class="nav-item">
+								<a id="offer" class="nav-link text-white fs-6 ms-2 px-2" href="#" onclick="onClickEmptyItem();">Item 2</a>
+							</li>
+						</ul>
+						
+						<form class="form-inline my-2 my-lg-0 py-0" id="logoutForm" method="POST" action="{% url 'logout' %}">
+						    {% csrf_token %}
+						    <button class="btn btn-sm btn-secondary" type="submit">
+						        Log Out
+						    </button>
+						</form>
+				    </div>			
+				</div>	  
+			</nav>
+
+        </header><!--/* End header */-->
+		<div class="mt-5 text-center">
+			<h3>Settings</h3>
+			<h4 class="text-white bg-dark px-2" style="display: inline;">I'm a Python App</h4>
+		</div>
+
+		<div class="container shadow mt-5 p-3">
+            <div id="template-0" class="card w-100">
+	            <div class="card-header">
+	                <h5 class="card-title">Create or edit loader configuration file</h5>
+	            </div>
+	            <div class="card-body">
+	                <div class="card-text">
+           			    <div class="form-group w-25">
+			            	<label for="loadertype">Loader Type</label>
+							<select id="loadertype" class="form-select">
+				                <option selected value="-1">Select Loader ...</option>
+				                <option value="directoryloader">Directory Loader</option>
+				                <option value="databaseloader">DataBase Loader</option>
+				                <option value="htmlloader">Html Loader</option>
+							</select>
+			        	</div>
+			        	
+			        	<div id="directoryloader" class="d-none">
+							<div class="my-3">
+								<div class="d-flex justify-content-between">
+							  		<label for="path" class="form-label">Path to Directory:</label>
+							  		<i class="bi bi-info-square text-info" data-bs-toggle="tooltip" data-bs-title="Enter the path to the directory, which depends on your operating system."></i>
+							  	</div>
+							  <input id="path" type="text" class="form-control">
+							</div>
+				        	<div class="form-group">
+				        		<div class="d-flex justify-content-between">
+					            	<label for="recursive">Recursive</label>
+							  		<i class="bi bi-info-square text-info" data-bs-toggle="tooltip" data-bs-title="Set the recursive level, i.e. how many subdirectories per path should be traversed."></i>
+					            </div>
+					            <select class="form-select w-25" id="recursive">
+					                <option value="-1">Select Recursive ...</option>
+					                <option value="true">true</option>
+					                <option value="false">false</option>
+					            </select>
+				        	</div>
+				        </div>
+
+			        	<div id="htmlloader" class="d-none">
+							<div class="my-3">
+								<div class="d-flex justify-content-between">
+									<label for="path" class="form-label">URI to HTML site or page:</label>
+							  		<i class="bi bi-info-square text-info" data-bs-toggle="tooltip" data-bs-title="Enter the link to the resource, optionally with port if necessary."></i>
+							  	</div>
+							  	<input id="uri" type="text" class="form-control" placeholder="https://www.example.com:344">
+							</div>
+				        	<div class="form-group">
+					            <div class="d-flex justify-content-between">
+					            	<label for="depth">Depth</label>
+					            	<i class="bi bi-info-square text-info" data-bs-toggle="tooltip" data-bs-title="Set depth to follow links in the target resource."></i>
+							  	</div>	
+					            <input id="depth" type="number" min="0" max="5" step="1" class="form-control w-25" value="0">				            	
+				        	</div>
+				        </div>				        
+	                </div>
+	            </div>
+	            <div class="card-footer text-end">
+					<button id="addbtn" class="btn btn-sm" onclick="newsection();"><i class="bi bi-plus-square text-primary"></i></button>
+					<button id="delbtn" class="btn btn-sm" onclick="resetconfig();"><i class="bi bi-trash text-danger"></i></button>
+	            </div>
+	        </div>
+	        
+	        <div id="" class="card w-100 mt-3">
+	            <div class="card-header d-flex justify-content-between">
+	                <h5 class="card-title">Configuration file</h5>
+	                <div>
+	                	<button class="btn btn-sm btn-outline-primary" onclick="saveconfiguration();">Save Configuration</button>
+	                	<button class="btn btn-sm btn-outline-primary" onclick="downloadconfiguration();">Download Configuration</button>
+	                </div>
+	            </div>
+        		<div id="scrollDiv" class="scrollableDiv p-3 rounded-0 rounded-bottom w-100">
+					<div id="configsec"></div>
+				</div>
+			</div>
+        </div>
+	
+		<div class="toast-container position-fixed top-0 p-2 pt-5">
+		    <div id="toast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+		        <div class="toast-header">
+		            <strong class="me-auto"><span id="toastheader">Confirmation Message</span></strong>
+		            <small class="text-muted"><span th:text="${#dates.format(#dates.createToday(),'dd.MM.yyyy')}"></span></small>
+		            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		        </div>
+		        <div id="toastbody" class="toast-body fs-6 text-start"></div>
+		    </div>
+		</div>   
+
+		<form method="post">
+		    {% csrf_token %}
+		</form>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>		
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+	<script src="{% static 'js/manageAjaxCalls.js' %}"></script>
+	
+	<script>
+
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	
+		const urlManageAjaxCalls = "{% url 'manage_ajax_calls' %}";
+	    var toastEl = document.getElementById('toast');
+	    var toast = new bootstrap.Toast(toastEl);
+	    
+	    var loaders = ["directoryloader", "databaseloader", "htmlloader"];
+	    
+        $(document).ready(function() {
+
+        	resetconfig(true);
+        	
+    		const divTop = $('#scrollDiv').offset().top;
+    		const viewportHeight = $(window).height();
+    		const remainingHeight = viewportHeight - divTop - 50;
+        	$('#scrollDiv').css('height', remainingHeight + 'px');
+        	
+        	getLoaderConfigFile();
+        	
+            $('#template-0 #loadertype').on('change', function() {
+            	resetconfig(false);
+                var selectedValue = $(this).val();
+                switch (selectedValue){
+
+                case "directoryloader":
+                	$('#'+selectedValue).removeClass('d-none');
+                	break;
+                	
+                case "databaseloader":
+                	showToast("Info", "Selected Loader Type not implemented yet: "+ selectedValue, "bg-primary", "bg-info");
+                	resetconfig();
+                	break;
+
+                case "htmlloader":
+                	$('#'+selectedValue).removeClass('d-none');
+                	break;
+
+                default:
+                	alert('nothing to do');
+                }
+            });
+        });
+        
+        function deletesec(id){
+        	$('#'+id).remove();
+        }
+	    
+        function resetconfig(resetLoader){
+		
+        	$.each(loaders, function(index, value) {
+        		$('#'+value).addClass('d-none');
+        	});
+        	if ( resetLoader ) {
+	        	$('#loadertype').val("-1");
+			}
+			
+        	$('#path').val('');
+        	$('#recursive').val("-1");
+        	
+        	$('#uri').val('');
+        	$('#depth').val("0");        	
+        }
+        
+        function newsection() {
+
+            const selectedValue = $('#loadertype option:selected').val();
+
+            switch (selectedValue){
+
+            case "directoryloader":
+            	addDirectoryLoaderSection(0,0,0,true);
+            	break;
+            	
+            case "databaseloader":
+            	break;
+
+            case "htmlloader":
+            	addHtmlLoaderSection(0,0,0,true);
+            	break;
+
+            default:
+            }
+        	
+        }
+        
+        
+        function addDirectoryLoaderSection(loader, path, recursive, newsec){
+
+        	setTimeout(() => {}, 1000);
+        	
+        	const currentDateInMillis = Date.now();
+        	
+        	var loadertypeTxt 	= "";
+        	var loadertypeVal 	= "";
+        	var pathVal 		= "";
+        	var recVal  		= "";
+        	
+        	if ( newsec ) {
+	        	loadertypeTxt = $('#loadertype option:selected').text();
+	        	loadertypeVal = $('#loadertype option:selected').val();
+	        	pathVal = $('#path').val();
+	        	recVal  = $('#recursive').val() != "-1" ? $('#recursive').val() : "false";
+        	} else {
+	        	loadertypeVal = loader;
+	        	pathVal = path;
+	        	recVal  = recursive;       	
+        	}
+        	
+        	if (loadertypeVal == "-1") {
+        		showToast("Add Config Section", "No loader type selected", "bg-primary", "bg-warning");
+        		return;
+        	}
+        	
+        	var secDiv = $('<div class="border mt-3 p-2 configsec"></div>').attr('id', currentDateInMillis);
+        	var topDiv = $('<div class="p-2 d-flex justify-content-between"><h5>Loader Section</h5></div>');
+        	var loaderBtn = $('<button class="btn btn-sm" onclick="deletesec('+currentDateInMillis+');"><i class="bi bi-trash text-danger"></i></button>');
+        	
+        	topDiv.append(loaderBtn);
+
+        	var loadertypeDiv = $('<div class="my-3"></div>');
+        	
+        	var loadid = "load_" + currentDateInMillis;
+        	var pathid = "path_" + currentDateInMillis;
+        	var recid  = "rec_"  + currentDateInMillis;
+        	
+        	var labelLoad = $('<label for="'+ loadid +'" class="form-label">Loader:</label>');
+        	var inputLoad = $('<input id="'+ loadid +'" type="text" class="form-control mb-4" value="'+loadertypeVal+'">');       	
+        	
+        	var labelPath = $('<label for="'+ pathid +'" class="form-label">Path to Directory:</label>');
+        	var inputPath = $('<input id="'+ pathid +'" type="text" class="form-control mb-4" value="'+pathVal+'">');       
+        	
+        	var labelRec = $('<label for="'+ recid +'" class="form-label">Recursive:</label>');
+        	var inputRec = $('<input id="'+ recid +'" type="text" class="form-control mb-4" value="'+recVal+'">');       
+        	
+        	loadertypeDiv.append(labelLoad);
+        	loadertypeDiv.append(inputLoad);
+
+        	loadertypeDiv.append(labelPath);
+        	loadertypeDiv.append(inputPath);
+        	
+        	loadertypeDiv.append(labelRec);
+        	loadertypeDiv.append(inputRec);
+        	
+        	secDiv.append(topDiv);
+        	secDiv.append(loadertypeDiv);
+        	
+        	$('#configsec').after(secDiv);
+        	
+        	resetconfig();        
+        
+        }
+        
+        
+        function addHtmlLoaderSection(loader, uri, depth, newsec){
+
+        	setTimeout(() => {}, 1000);
+        	
+        	const currentDateInMillis = Date.now();
+        	
+        	var loadertypeTxt 	= "";
+        	var loadertypeVal 	= "";
+        	var uriVal 		= "";
+        	var depthVal  		= "";
+        	
+        	if ( newsec ) {
+	        	loadertypeTxt = $('#loadertype option:selected').text();
+	        	loadertypeVal = $('#loadertype option:selected').val();
+	        	uriVal = $('#uri').val();
+	        	let d = $('#depth').val();
+	        	d = isNaN(d) ? "0" : d;
+	        	d = Number(d);
+	        	d = d>=0 && d<=5 ? d : 0;
+	        	depthVal  = d;
+        	} else {
+	        	loadertypeVal = loader;
+	        	uriVal = uri;
+	        	depthVal  = depth;       	
+        	}
+        	
+        	if (loadertypeVal == "-1") {
+        		showToast("Add Config Section", "No loader type selected", "bg-primary", "bg-warning");
+        		return;
+        	}
+        	
+        	var secDiv = $('<div class="border mt-3 p-2 configsec"></div>').attr('id', currentDateInMillis);
+        	var topDiv = $('<div class="p-2 d-flex justify-content-between"><h5>Loader Section</h5></div>');
+        	var loaderBtn = $('<button class="btn btn-sm" onclick="deletesec('+currentDateInMillis+');"><i class="bi bi-trash text-danger"></i></button>');
+        	
+        	topDiv.append(loaderBtn);
+
+        	var loadertypeDiv = $('<div class="my-3"></div>');
+        	
+        	var loadid = "load_" + currentDateInMillis;
+        	var uriid = "uri_" + currentDateInMillis;
+        	var depthid  = "depth_"  + currentDateInMillis;
+        	
+        	var labelLoad = $('<label for="'+ loadid +'" class="form-label">Loader:</label>');
+        	var inputLoad = $('<input id="'+ loadid +'" type="text" class="form-control mb-4" value="'+loadertypeVal+'">');       	
+        	
+        	var labelUri = $('<label for="'+ uriid +'" class="form-label">URI to HTML site or page:</label>');
+        	var inputUri = $('<input id="'+ uriid +'" type="text" class="form-control mb-4" value="'+uriVal+'">');       
+        	
+        	var labelDepth = $('<label for="'+ depthid +'" class="form-label">Depth:</label>');
+        	var inputDepth = $('<input id="'+ depthid +'" type="text" class="form-control mb-4" value="'+depthVal+'">');       
+        	
+        	loadertypeDiv.append(labelLoad);
+        	loadertypeDiv.append(inputLoad);
+
+        	loadertypeDiv.append(labelUri);
+        	loadertypeDiv.append(inputUri);
+        	
+        	loadertypeDiv.append(labelDepth);
+        	loadertypeDiv.append(inputDepth);
+        	
+        	secDiv.append(topDiv);
+        	secDiv.append(loadertypeDiv);
+        	
+        	$('#configsec').after(secDiv);
+        	
+        	resetconfig();        
+        
+        }
+        
+        
+        function getconfiguration(){
+        	var jarr = [];
+        	const configSections = $('.configsec');
+            configSections.each(function(index) {
+            	const inputs = $(this).find('input');
+            	var jobjsec = {};
+                inputs.each(function(inputIndex) {
+					
+					var id = $(this).attr('id');
+								
+					// with the 
+					if ( id.startsWith("load_") ) {
+						jobjsec.loader_type = $(this).val();
+					}
+					else if ( id.startsWith("path_" ) ) {
+						var path = $(this).val();
+						var path1 = path.replace(/\\/g, '|').replaceAll("||", "|");
+						var path2 = path1.replaceAll("|", "\\");
+						jobjsec.path = path2;
+					}
+					else if ( id.startsWith("rec_" ) ) {
+						jobjsec.recursive = $(this).val();
+					}
+					else if ( id.startsWith("uri_" ) ) {
+						jobjsec.uri = $(this).val();
+					}
+					else if ( id.startsWith("depth_" ) ) {
+						jobjsec.depth = $(this).val();
+					}
+					else {
+	                    console.log("Found input, but nothing to do " + (inputIndex + 1) + ": " + $(this).attr('id'));
+	                    console.log("Found input, but nothing to do " + (inputIndex + 1) + ": " + $(this).val());
+					}
+                });
+                jarr.push(jobjsec);
+            });
+            
+            var jobjFinal = {};
+            jobjFinal.loaders = jarr;
+
+            return jobjFinal;
+        }
+        
+        
+        function prettyprint(jobjFinal){
+            const prettyJson = JSON.stringify(jobjFinal, null, 4);
+            console.log(prettyJson);
+            return prettyJson;
+        }
+        
+        
+        function downloadconfiguration(){
+			const jobjFinal = getconfiguration();
+        	const content = prettyprint(jobjFinal);
+        	const blob = new Blob([content], { type: 'text/plain' });
+        	const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'config.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+        }
+        
+        
+        async function saveconfiguration(){
+        	const jobjFinal = getconfiguration();
+			let jobj = {};
+			jobj.module = "PREREQUISITS";
+			jobj.ctrlflow = "saveloaderconfigfile";
+			jobj.configfile = jobjFinal;
+			
+			let response = await manageAjaxCalls(jobj);
+			
+			switch (response.ctrlflow) {
+			case "saveloaderconfigfile":
+				if ( ! response.responseResult )
+					showToast("Save Settings", "Could not save settings!", "bg-primary", "bg-danger");
+				else
+					showToast("Save Settings", "Settings saved successfully!", "bg-primary", "bg-primary");
+				$('#btnNewOfferModal').click();
+				
+				break;
+			case "getloaderconfigfile":
+				showToast("Save Settings", "getloaderconfigfile", "bg-primary", "bg-primary");
+				break;
+			default:
+				break;
+			}
+			showToast("Info", "Configuration saved", "bg-primary", "bg-info");
+        }
+        
+        
+        async function getLoaderConfigFile(){
+			let jobj = {};
+			jobj.module = "PREREQUISITS";
+			jobj.ctrlflow = "getloaderconfigfile";
+			
+			var response = await manageAjaxCalls(jobj);
+			var jobjResult = response.responseResult;
+			
+		    $.each(jobjResult.configfile.loaders, function(index, loader) {
+
+		    	switch(loader.loader_type) {
+
+		    	case "directoryloader":
+		    		addDirectoryLoaderSection(loader.loader_type,loader.path,loader.recursive,false);
+		    		break;
+		    	case "htmlloader":
+		    		addHtmlLoaderSection(loader.loader_type,loader.uri,loader.depth,false);
+		    		break;
+		    	case "databaseloader":
+		    		// nothing to do
+		    		break;
+		    		
+		    	default:
+		    		// nothing to do
+		    	}
+		    });
+        }
+        
+	
+	</script>		     
+</body>

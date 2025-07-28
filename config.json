@@ -1,0 +1,19 @@
+{
+    "loaders": [
+        {
+            "loader_type": "directoryloader",
+            "path": "f:\\dhdh",
+            "recursive": "false"
+        },
+        {
+            "loader_type": "directoryloader",
+            "path": "asdf",
+            "recursive": "true"
+        },
+        {
+            "loader_type": "htmlloader",
+            "uri": "https://ep.gfdt.net",
+            "depth": "3"
+        }
+    ]
+}

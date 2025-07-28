@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Optional: Add Bootstrap JS (for dropdowns, modals, etc.) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <style>
+		.c-pointer{
+		  cursor: pointer;
+		}    
+		.form-switch .form-check-input {
+			width: 3em !important;
+			height: 1.3em !important;
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='4' fill='black'/%3e%3c/svg%3e") !important;
+		  	background-color: #6c757d;
+		  	border-color: gray;
+		}
+		
+        .switch-green .form-check-input:checked {
+            background-color: #28a745; /* Green background */
+            border-color: gray;
+        }
+
+        .switch-red .form-check-input:checked {
+            background-color: #dc3545; /* Red background */
+            border-color: gray;
+        }
+				
+		.form-switch .form-check-input:focus {
+		  box-shadow: 0 0 1px 1px gray;
+		  border-color: gray;
+		}
+		.c-pointer{
+		  cursor: pointer;
+		}    
+		.shadowhover:hover{
+			background-color: #f8f9fa;
+		    border-radius: 5px;
+		    -moz-border-radius: 5px;			
+		}
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 10px;
+        }
+        .card {
+        	width: 320px;
+            border: 1px solid #ccc;
+            padding: 1px;
+            margin: 10px;
+            box-shadow: 2px 4px 5px rgba(0,0,0,0.1);
+            text-align: left;
+        }	
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            height: 100%;
+        }
+        .btn-footer {
+            margin-top: auto; 
+        }   
+		 .disabled-div * {
+		    pointer-events: none; /* Disable interaction with child elements */
+		    opacity: 0.5; /* Optional: visually indicate the div is disabled */
+		}  
+   </style>    
+   <script>
+   
+   function showToast(header, body, removeClass, addClass){
+
+     	$('#toastheader').html(header);
+     	$('#toastbody').removeClass(removeClass).addClass(addClass);
+     	$('#toastbody').html(body);        	
+   	toast.show(); 
+   }			
+	
+   function onClickEmptyItem(){
+   	showToast("Confirmation Message", "This function is not implemented yet!", "bg-primary", "bg-danger");
+   }
+   
+   </script>   
+    
+</head>
+<body>
+        <header id="header" class="header">
+			<nav class="navbar navbar-expand-lg navbar-light bg-dark py-1">
+				<div class="container-fluid">
+                    <a class="mt-0 p-0 d-flex flex-row align-items-center bg-dark" href="https://www.learn2rag.de" title="You'll leave this site.">
+                        <img src="{% static 'images/l2rag_logo.png' %}" alt="Learn2RAG" width="155" height="auto" class="align-self-start bg-white rounded border mx-2 p-0 px-2">
+                    </a>	
+					<div class="collapse navbar-collapse d-flex justify-content-between align-items-center" id="mynavbar">
+						<ul class="navbar-nav me-auto">
+							<li class="nav-item">
+								<a id="mgmtconsole" class="nav-link text-white fs-6 ms-2 px-2 border rounded" href="/config">Management Console</a>
+							</li>
+							<li class="nav-item">
+								<a id="customers" class="nav-link text-white fs-6 ms-2 px-2" href="#" onclick="onClickEmptyItem();">Item 1</a>
+							</li>
+							<li class="nav-item">
+								<a id="offer" class="nav-link text-white fs-6 ms-2 px-2" href="#" onclick="onClickEmptyItem();">Item 2</a>
+							</li>
+						</ul>
+						
+						<form class="form-inline my-2 my-lg-0 py-0" id="logoutForm" method="POST" action="{% url 'logout' %}">
+						    {% csrf_token %}
+						    <button class="btn btn-sm btn-secondary" type="submit">
+						        Log Out
+						    </button>
+						</form>
+				    </div>			
+				</div>	  
+			</nav>
+
+        </header><!--/* End header */-->	
+        
+		<div class="mt-5 text-center">
+			<h3>Welcome to the Management Console of Learn2RAG</h3>
+			<h4 class="text-white bg-dark px-2" style="display: inline;">I'm a Python App</h4>
+		</div>
+
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-body c-pointer shadowhover disabled-div" onclick="document.getElementById('accountservices').click();">
+					<div>
+						<h5 class="card-title">Available AI Models</h5>
+						<div class="card-text">&#8226; Select AI Model</div>
+						<div class="card-text">&#8226; Download and install AI Model</div>
+					</div>
+					<a id="accountservices" href="#" class="btn btn-outline-primary w-100 mt-3">Get AI Model</a>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-body c-pointer shadowhover" onclick="document.getElementById('accountservices').click();">
+					<div>
+						<h5 class="card-title">Loader Settings</h5>
+						<div class="card-text">&#8226; Configuration of Content Scan</div>
+					</div>
+					<a id="accountservices" href="/loadersettings" class="btn btn-outline-primary w-100 mt-3">Open Settings</a>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

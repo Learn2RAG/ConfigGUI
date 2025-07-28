@@ -1,0 +1,14 @@
+<!--/*  this will provide the inline body-stylings for the background settings and should be included in every page*/-->
+	<style th:inline="text">
+	    body {
+	        /*[# th:if="${bgView!='gradient'}" ]*/
+	        background-image: url("[(${bgView})]"),
+	        linear-gradient(to bottom, rgba(151, 159, 169, 100%), rgba(21, 39, 62, 100%));
+	        background-size: cover;
+	        /*[/]*/
+	
+	        /*[# th:if="${bgView=='gradient'}" ]*/
+	        background: linear-gradient(to bottom, rgba(151, 159, 169, 100%), rgba(21, 39, 62, 100%));
+	        /*[/]*/
+		}
+	</style>
